@@ -6,7 +6,7 @@ class Converter:
 
     # Common format for all buttons
     # Arial, size 14, Bold, with white text
-    button_font = ("Arial", "14", "bold")
+    button_font = ("Arial", "12", "bold")
     button_fg = "#FFFFFF"
 
     
@@ -34,11 +34,17 @@ class Converter:
     self.button_frame = Frame(self.temp_frame)
     self.button_frame.grid(row=4)
 
-    self.to_celsius_button = Button(self.button_frame, text="To Celsius", bg="#990099", fg=button_fg, font=button_font)
-    self.to_celsius_button.grid(row=0, column=0)
+    self.to_celsius_button = Button(self.button_frame, text="To Celsius", bg="#990099", fg=button_fg, font=button_font, width=12)
+    self.to_celsius_button.grid(row=0, column=0, padx=5, pady=5)
 
-    self.to_fahrenheit_button = Button(self.button_frame, text="To Fahrenheit", bg='#009900', fg=button_fg, font=button_font)
-    self.to_fahrenheit_button.grid(row=0, column=1)
+    self.to_fahrenheit_button = Button(self.button_frame, text="To Fahrenheit", bg='#009900', fg=button_fg, font=button_font, width=12)
+    self.to_fahrenheit_button.grid(row=0, column=1, padx=5, pady=5)
+
+    self.to_help_button = Button(self.button_frame, text="Help / Info", bg='#CC6600', fg=button_fg, font=button_font, width=12)
+    self.to_help_button.grid(row=1, column=0, padx=5, pady=5)
+
+    self.to_history_button = Button(self.button_frame, text="History / Export", bg='#004C99', fg=button_fg, font=button_font, width=12, state=DISABLED)
+    self.to_history_button.grid(row=1, column=1, padx=5, pady=5)
 
 if __name__ == "__main__":
   root = Tk()
