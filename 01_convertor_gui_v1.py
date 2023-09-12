@@ -46,6 +46,26 @@ class Converter:
     self.to_history_button = Button(self.button_frame, text="History / Export", bg='#004C99', fg=button_fg, font=button_font, width=12, state=DISABLED)
     self.to_history_button.grid(row=1, column=1, padx=5, pady=5)
 
+  def check_temp(min_value):
+    error = "Please enter a number that is more than {}".format(min_value)
+  
+    try:
+      response = float(input("Choose a number: "))
+  
+      if response < min_value:
+        print(error)
+      else:
+        return response
+  
+    except ValueError:
+      print(error)
+
+
+# ** Main Routine **
+
+while True:
+  to_check = check_temp(-459)
+  print("Success")
 if __name__ == "__main__":
   root = Tk()
   root.title("Temperature Converter")
