@@ -1,4 +1,4 @@
-from tkinter import Frame
+from tkinter import DISABLED, Frame, Tk
 from tkinter import Label
 from tkinter import Entry
 from tkinter import Button
@@ -30,7 +30,7 @@ class Converter:
     self.temp_entry.grid(row=2, padx = 10, pady= 10)
 
     error = "Please enter a number"
-    self.temp_error = Label(self.temp_frame, text=error, fg=("#9C0000"))
+    self.temp_error = Label(self.temp_frame, text=(""), fg=("#9C0000"))
     self.temp_error.grid(row=3)
 
     # Conversion, help and history / export buttons
@@ -49,19 +49,20 @@ class Converter:
     self.to_history_button = Button(self.button_frame, text="History / Export", bg='#004C99', fg=button_fg, font=button_font, width=12, state=DISABLED)
     self.to_history_button.grid(row=1, column=1, padx=5, pady=5)
 
-  def check_temp(min_value):
+  def check_temp(self, min_value):
     error = "Please enter a number that is more than {}".format(min_value)
   
     try:
-      response = float(input("Choose a number: "))
+      response = self.temp_entry.get()
+      reponse = float(response)
   
       if response < min_value:
-        print(error)
+        self.temp_error.config(text=error)
       else:
         return response
   
     except ValueError:
-      print(error)
+      self.temp_error.config(text=error)
 
   def to_celsius(self):
     self.check_temp(-459)
@@ -69,9 +70,10 @@ class Converter:
 
 # ** Main Routine **
 
-while True:
-  to_check = check_temp(-459)
-  print("Success")
+#while True:
+#  to_check = check_temp(-459)
+#  print("Success")
+
 if __name__ == "__main__":
   root = Tk()
   root.title("Temperature Converter")
