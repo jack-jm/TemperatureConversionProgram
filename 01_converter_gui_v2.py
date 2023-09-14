@@ -4,6 +4,17 @@ class Converter:
 
   def __init__(self):
 
+    # Initialise variables (such as the feedback variable)
+    self.var_feedback = StringVar()
+    self.var_feedback.set("")
+
+    self.var_has_error = StringVar()
+    self.var_has_error.set("no")
+
+
+
+
+    
     # Common format for all buttons
     # Arial, size 14, Bold, with white text
     button_font = ("Arial", "12", "bold")
@@ -51,27 +62,51 @@ class Converter:
     error = "Please enter a number that is more than {}".format(min_value)
 
     # check that user has entered a valid number
+
+    response = self.temp_entry.get()
+    
     try:
-      response = self.temp_entry.get()
       response = float(response)
   
       if response < min_value:
         has_error = "yes"
 
-      if has_error == "yes":
-        self.temp_error.config(text=error, fg="#9C0000")
-      else:
-        self.temp_error.config(text="You are OK", fg="blue")
-
-        # if we have at least one valid calculation, enable history/export button
-        self.to_history_button.config(state=NORMAL)
-  
     except ValueError:
-      self.temp_error.config(text=error)
+     has_error="yes"
 
+    # Sets var_has_error so that entry box and labels can be correctly formatted by formatting function
+    if has_error == "yes":
+      self.var_has_error.set("yes")
+      self.var_feedback.set(error)
+      return "invalid"
+
+    # If we have no errors...
+    else:
+      # set to 'no' in case of previous errors
+      self.var_has_error.set("no")
+
+      # return number to be converted and enable history button
+      self.to_history_button.config(state=NORMAL)
+      return response
+
+  # Check temperature is more than -459 and convert it
   def to_celsius(self):
     self.check_temp(-459)
 
+  # Shows user output and clears entry widget ready for next calculation
+  def output_answer(self):
+    output = self.var_feedback.get()
+    has_errors = self.var_has_error.get()
+
+    if has_errors == "yes":
+      # red text, pink entry box
+      self.temp_error.config(fg='#9C0000')
+      self.temp_entry.config(bg='#F8CECC')
+
+    else:
+      self.temp_error.config(fg='#004C00')
+      self.temp_error.config(bg='#FFFFFF')
+      
 
 # ** Main Routine **
 
