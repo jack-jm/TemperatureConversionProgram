@@ -10,10 +10,6 @@ class Converter:
 
     self.var_has_error = StringVar()
     self.var_has_error.set("no")
-
-
-
-
     
     # Common format for all buttons
     # Arial, size 14, Bold, with white text

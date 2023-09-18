@@ -57,10 +57,9 @@ class Converter:
     has_error = "no"
     error = "Please enter a number that is more than {}".format(min_value)
 
-    # check that user has entered a valid number
-
     response = self.temp_entry.get()
     
+    # check that user has entered a valid number
     try:
       response = float(response)
   
@@ -76,9 +75,9 @@ class Converter:
       self.var_feedback.set(error)
       return "invalid"
 
-    # If we have no errors...
+    # If we have no errors
     else:
-      # set to 'no' in case of previous errors
+      #set to 'no' in case of previous errors
       self.var_has_error.set("no")
 
       # return number to be converted and enable history button
@@ -87,7 +86,13 @@ class Converter:
 
   # Check temperature is more than -459 and convert it
   def to_celsius(self):
-    self.check_temp(-459)
+    to_convert = self.check_temp(-459)
+
+    if to_convert != "invalid":
+      # do calculation
+      self.var_feedback.set("Converting {} to C :)".format(to_convert))
+
+    self.output_answer()
 
   # Shows user output and clears entry widget ready for next calculation
   def output_answer(self):
