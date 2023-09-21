@@ -34,8 +34,8 @@ class Converter:
     self.temp_entry.grid(row=2, padx = 10, pady= 10)
 
     error = "Please enter a number"
-    self.temp_error = Label(self.temp_frame, text=(""), fg=("#9C0000"))
-    self.temp_error.grid(row=3)
+    self.output_label = Label(self.temp_frame, text=(""), fg=("#9C0000"))
+    self.output_label.grid(row=3)
 
     # Conversion, help and history / export buttons
     self.button_frame = Frame(self.temp_frame)
@@ -44,7 +44,7 @@ class Converter:
     self.to_celsius_button = Button(self.button_frame, text="To Celsius", bg="#990099", fg=button_fg, font=button_font, width=12, command=self.to_celsius)
     self.to_celsius_button.grid(row=0, column=0, padx=5, pady=5)
 
-    self.to_fahrenheit_button = Button(self.button_frame, text="To Fahrenheit", bg='#009900', fg=button_fg, font=button_font, width=12)
+    self.to_fahrenheit_button = Button(self.button_frame, text="To Fahrenheit", bg='#009900', fg=button_fg, font=button_font, width=12, command=self.to_fahrenheit)
     self.to_fahrenheit_button.grid(row=0, column=1, padx=5, pady=5)
 
     self.to_help_button = Button(self.button_frame, text="Help / Info", bg='#CC6600', fg=button_fg, font=button_font, width=12)
@@ -94,6 +94,15 @@ class Converter:
 
     self.output_answer()
 
+  def to_fahrenheit(self):
+    to_convert = self.check_temp(-273)
+
+    if to_convert != "invalid":
+        # do calculation
+        self.var_feedback.set("Converting {} to F :)".format(to_convert))
+  
+    self.output_answer()
+  
   # Shows user output and clears entry widget ready for next calculation
   def output_answer(self):
     output = self.var_feedback.get()
@@ -101,14 +110,14 @@ class Converter:
 
     if has_errors == "yes":
       # red text, pink entry box
-      self.temp_error.config(fg='#9C0000')
+      self.output_label.config(fg='#9C0000')
       self.temp_entry.config(bg='#F8CECC')
 
     else:
-      self.temp_error.config(fg='#004C00')
-      self.temp_error.config(bg='#FFFFFF')
+      self.output_label.config(fg='#004C00')
+      self.output_label.config(bg='#FFFFFF')
       
-
+    self.output_label.config(text=output)
 # ** Main Routine **
 
 #while True:
