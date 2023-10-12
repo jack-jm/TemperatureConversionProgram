@@ -116,6 +116,7 @@ class Converter:
     else:
       self.output_label.config(fg='#004C00')
       self.output_label.config(bg='#FFFFFF')
+      self.temp_entry.config(bg='#FFFFFF')
       
     self.output_label.config(text=output)
 # ** Main Routine **
