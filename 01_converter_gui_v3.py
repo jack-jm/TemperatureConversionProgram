@@ -41,10 +41,10 @@ class Converter:
     self.button_frame = Frame(self.temp_frame)
     self.button_frame.grid(row=4)
 
-    self.to_celsius_button = Button(self.button_frame, text="To Celsius", bg="#990099", fg=button_fg, font=button_font, width=12, command=self.to_celsius)
+    self.to_celsius_button = Button(self.button_frame, text="To Celsius", bg="#990099", fg=button_fg, font=button_font, width=12, command=lambda: self.temp_convert(-459))
     self.to_celsius_button.grid(row=0, column=0, padx=5, pady=5)
 
-    self.to_fahrenheit_button = Button(self.button_frame, text="To Fahrenheit", bg='#009900', fg=button_fg, font=button_font, width=12, command=self.to_fahrenheit)
+    self.to_fahrenheit_button = Button(self.button_frame, text="To Fahrenheit", bg='#009900', fg=button_fg, font=button_font, width=12, command=lamba: self.temp_convert(-273))
     self.to_fahrenheit_button.grid(row=0, column=1, padx=5, pady=5)
 
     self.to_help_button = Button(self.button_frame, text="Help / Info", bg='#CC6600', fg=button_fg, font=button_font, width=12)
@@ -84,25 +84,25 @@ class Converter:
       self.to_history_button.config(state=NORMAL)
       return response
 
-  # Check temperature is more than -459 and convert it
-  def to_celsius(self):
-    to_convert = self.check_temp(-459)
+  # Check temperature is valid and convert it
+  def temp_convert(self, min_val):
+    to_convert = float(self.check_temp(min_val))
+    
+    set_feedback = "yes"
 
-    if to_convert != "invalid":
+    if to_convert == "invalid":
+      set_feedback = "no"
+
+    # Convert to celsius
+    elif min_val == -459:
       # do calculation
-      self.var_feedback.set("Converting {} to C :)".format(to_convert))
+      answer = (to_convert - 32) * 5 / 9
+
+    else:
+      answer = to_convert * 1.8 + 32
 
     self.output_answer()
 
-  def to_fahrenheit(self):
-    to_convert = self.check_temp(-273)
-
-    if to_convert != "invalid":
-        # do calculation
-        self.var_feedback.set("Converting {} to F :)".format(to_convert))
-  
-    self.output_answer()
-  
   # Shows user output and clears entry widget ready for next calculation
   def output_answer(self):
     output = self.var_feedback.get()
