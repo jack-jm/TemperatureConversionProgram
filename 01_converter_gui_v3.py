@@ -16,7 +16,7 @@ class Converter:
     button_font = ("Arial", "12", "bold")
     button_fg = "#FFFFFF"
 
-    
+
     #Set up GUI frame
     self.temp_frame = Frame(padx=10, pady=10)
     self.temp_frame.grid()
@@ -44,7 +44,7 @@ class Converter:
     self.to_celsius_button = Button(self.button_frame, text="To Celsius", bg="#990099", fg=button_fg, font=button_font, width=12, command=lambda: self.temp_convert(-459))
     self.to_celsius_button.grid(row=0, column=0, padx=5, pady=5)
 
-    self.to_fahrenheit_button = Button(self.button_frame, text="To Fahrenheit", bg='#009900', fg=button_fg, font=button_font, width=12, command=lamba: self.temp_convert(-273))
+    self.to_fahrenheit_button = Button(self.button_frame, text="To Fahrenheit", bg='#009900', fg=button_fg, font=button_font, width=12, command=lambda: self.temp_convert(-273))
     self.to_fahrenheit_button.grid(row=0, column=1, padx=5, pady=5)
 
     self.to_help_button = Button(self.button_frame, text="Help / Info", bg='#CC6600', fg=button_fg, font=button_font, width=12)
@@ -58,11 +58,11 @@ class Converter:
     error = "Please enter a number that is more than {}".format(min_value)
 
     response = self.temp_entry.get()
-    
+
     # check that user has entered a valid number
     try:
       response = float(response)
-  
+
       if response < min_value:
         has_error = "yes"
 
@@ -84,11 +84,19 @@ class Converter:
       self.to_history_button.config(state=NORMAL)
       return response
 
+  @staticmethod
+  def round_ans(val):
+    if type(val) is float:
+      var_rounded = (val * 2 + 1) // 2
+      return "{:.0f}".format(var_rounded)
+
   # Check temperature is valid and convert it
   def temp_convert(self, min_val):
     to_convert = float(self.check_temp(min_val))
-    
+    deg_sign = u'\N{DEGREE SIGN}'
     set_feedback = "yes"
+    answer = ""
+    from_to = ""
 
     if to_convert == "invalid":
       set_feedback = "no"
@@ -97,9 +105,19 @@ class Converter:
     elif min_val == -459:
       # do calculation
       answer = (to_convert - 32) * 5 / 9
+      from_to = "{} {}F is {} {}C"
 
     else:
       answer = to_convert * 1.8 + 32
+      from_to = "{} {}C is {} {}F"
+
+    if set_feedback == "yes":
+      to_convert = self.round_ans(to_convert)
+      answer = self.round_ans(answer)
+
+      # create user output and add to calculation history
+      feedback = from_to.format(to_convert, deg_sign, answer, deg_sign)
+      self.var_feedback.set(feedback)
 
     self.output_answer()
 
@@ -116,7 +134,7 @@ class Converter:
     else:
       self.output_label.config(fg='#004C00')
       self.output_label.config(bg='#FFFFFF')
-      
+
     self.output_label.config(text=output)
 # ** Main Routine **
 
